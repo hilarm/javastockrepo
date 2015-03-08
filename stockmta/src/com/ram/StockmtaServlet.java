@@ -6,7 +6,7 @@ import javax.servlet.http.*;
 @SuppressWarnings("serial")
 public class StockmtaServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException {
+			throws IOException {//ff
 		resp.setContentType("text/plain");
 		resp.getWriter().println("Hello, world");
 	}
