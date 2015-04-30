@@ -1,3 +1,6 @@
+/*
+ * portfolio manager - in order to activate actions on portfolio. 
+ */
 package com.ram.service;
 
 import java.util.Calendar;

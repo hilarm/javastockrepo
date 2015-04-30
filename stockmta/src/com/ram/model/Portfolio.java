@@ -1,3 +1,6 @@
+/*
+ * portfolio - manage all stocks in one place. 
+ */
 package com.ram.model;
 
 import com.ram.Stock;
@@ -13,7 +16,7 @@ public class Portfolio {
 		stocks=new Stock[MAX_PORTFOLIO_SIZE];
 		this.stockIndex=0;
 	}
-	
+
 	public void addStock(Stock stock){
 		if(stock !=null && stockIndex<MAX_PORTFOLIO_SIZE){
 			this.stocks[stockIndex]=stock;

@@ -1,3 +1,6 @@
+/*
+ * portfolio servlet - present portfolio data in web page
+ */
 package com.ram.servlet;
 
 import java.io.IOException;

@@ -1,3 +1,6 @@
+/*
+ * Stock - holds all stock data (symbol,bid,ask,date) and print them. 
+ */
 package com.ram;
 
 import java.text.DateFormat;
