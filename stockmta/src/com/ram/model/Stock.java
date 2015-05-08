@@ -1,7 +1,9 @@
 /*
- * Stock - holds all stock data (symbol,bid,ask,date) and print them. 
+ * The class represent a stock where all the stocks data is gather.
+ * @author: Hila Ram
+ * Last change date May, 7. 
  */
-package com.ram;
+package com.ram.model;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -20,15 +22,20 @@ public class Stock {
 	private final static int SELL=1;
 	private final static int REMOVE=2;
 	private final static int HOLD=3;
+	
+	//constructor
 	public Stock(String symbol, float ask, float bid,Date date2) {
 		this.symbol=symbol;
 		this.ask=ask;
 		this.bid=bid;
 		this.date=date2;
 	}
+	//copy constructor
 	public Stock(Stock stck) {
-		this(stck.getSymbol(),stck.getAsk(),stck.getBid(), stck.getDate());
+		this(stck.getSymbol(),stck.getAsk(),stck.getBid(),new Date( stck.getDate().getTime()));
 	}
+	
+	//getters and setters
 	public String getSymbol() {
 		return symbol;
 	}
@@ -53,6 +60,10 @@ public class Stock {
 	public void setDate(java.util.Date date) {
 		this.date = date;
 	}
+	
+	/*print stock's description (symbol, ask, bid, date)
+	 * return value is a string type
+	 */
 	public String getHtmlDescription(){
 		DateFormat dateStr = new SimpleDateFormat("MM/dd/yyyy");
 		String result = new String("<b>Stock symbol</b>: "+getSymbol()+" <b>Bid</b>: "+getBid()+" <b>Ask</b>: "+getAsk()+" <b>Date</b>: "+dateStr.format(getDate()));

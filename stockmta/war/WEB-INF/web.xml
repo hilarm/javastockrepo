@@ -5,30 +5,6 @@ xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet>
-		<servlet-name>StockmtaServlet</servlet-name>
-		<servlet-class>com.ram.StockmtaServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>StockmtaServlet</servlet-name>
-		<url-pattern>/StockmtaServlet</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>AdvancedMath</servlet-name>
-		<servlet-class>com.ram.AdvancedMath</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>AdvancedMath</servlet-name>
-		<url-pattern>/AdvancedMath	</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>StockDetailsServlet</servlet-name>
-		<servlet-class>com.ram.StockDetailsServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>StockDetailsServlet</servlet-name>
-		<url-pattern>/StockDetailsServlet</url-pattern>
-	</servlet-mapping>
-	<servlet>
 	<servlet-name>PortfolioServlet</servlet-name>
 	<servlet-class>com.ram.servlet.PortfolioServlet</servlet-class>
 	</servlet>

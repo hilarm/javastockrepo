@@ -1,13 +1,14 @@
 /*
- * portfolio manager - in order to activate actions on portfolio. 
+ * The class represent a portfolio manager where all portfolios are managed.
+ * @author: Hila Ram 
  */
 package com.ram.service;
 
 import java.util.Calendar;
 import java.util.Date;
 
-import com.ram.Stock;
 import com.ram.model.Portfolio;
+import com.ram.model.Stock;
 
 public class PortfolioManager {
 	public Portfolio getPortfolio(){
@@ -24,8 +25,7 @@ public class PortfolioManager {
 		Stock stock2=new Stock("AAL", 5.78f, 5.5f ,date2);
 		Stock stock3=new Stock("CAAS", 32.2f, 31.5f,date3 );
 		
-		
-		
+		//insert stock
 		portfolio.addStock(stock1);
 		portfolio.addStock(stock2);
 		portfolio.addStock(stock3);
