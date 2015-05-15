@@ -1,4 +1,4 @@
-/*
+/**
  * The class represent a stock where all the stocks data is gather.
  * @author: Hila Ram
  * Last change date May, 7. 
@@ -10,29 +10,28 @@ import java.text.SimpleDateFormat;
 //import java.util.Calendar;
 import java.util.Date;
 
+import com.ram.model.Portfolio.ALGO_RECOMMENDATION;
+
 public class Stock {
 	
 	private String symbol;
 	private float ask;
 	private float bid;
 	private Date date;
-	private int recommendation;
+	private ALGO_RECOMMENDATION recommendation;
 	private int stockQuantity;
-	private final static int BUY=0;
-	private final static int SELL=1;
-	private final static int REMOVE=2;
-	private final static int HOLD=3;
 	
 	//constructor
-	public Stock(String symbol, float ask, float bid,Date date2) {
+	public Stock(String symbol, float ask, float bid,Date date2,int quantity) {
 		this.symbol=symbol;
 		this.ask=ask;
 		this.bid=bid;
 		this.date=date2;
+		this.stockQuantity=quantity;
 	}
 	//copy constructor
 	public Stock(Stock stck) {
-		this(stck.getSymbol(),stck.getAsk(),stck.getBid(),new Date( stck.getDate().getTime()));
+		this(stck.getSymbol(),stck.getAsk(),stck.getBid(),new Date( stck.getDate().getTime()),stck.getStockQuantity());
 	}
 	
 	//getters and setters
@@ -60,13 +59,19 @@ public class Stock {
 	public void setDate(java.util.Date date) {
 		this.date = date;
 	}
+	public int getStockQuantity() {
+		return stockQuantity;
+	}
+	public void setStockQuantity(int stockQuantity) {
+		this.stockQuantity = stockQuantity;
+	}
 	
-	/*print stock's description (symbol, ask, bid, date)
-	 * return value is a string type
+	/**print stock's description (symbol, ask, bid, date,quantity)
+	 * @return string
 	 */
 	public String getHtmlDescription(){
 		DateFormat dateStr = new SimpleDateFormat("MM/dd/yyyy");
-		String result = new String("<b>Stock symbol</b>: "+getSymbol()+" <b>Bid</b>: "+getBid()+" <b>Ask</b>: "+getAsk()+" <b>Date</b>: "+dateStr.format(getDate()));
+		String result = new String("<b>Stock symbol</b>: "+this.getSymbol()+" <b>Bid</b>: "+this.getBid()+" <b>Ask</b>: "+this.getAsk()+" <b>Date</b>: "+dateStr.format(getDate())+" <b>Quantity</b>: "+this.getStockQuantity());
 		return result;
 	}
 }

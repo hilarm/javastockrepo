@@ -22,19 +22,8 @@ public class PortfolioServlet extends HttpServlet {
 		resp.setContentType("text/html");
 		
 		PortfolioManager portfolioManager=new PortfolioManager();
-		Portfolio portfolio=portfolioManager.getPortfolio();
-		Portfolio portfolio2=portfolioManager.getPortfolio();
-		portfolio2.setTitle("Portfolio#2");
-		resp.getWriter().println(portfolio.getHtmlString());
-		resp.getWriter().println(portfolio2.getHtmlString());
-		
-		portfolio.removeStock(0);
-		resp.getWriter().println(portfolio.getHtmlString());
-		resp.getWriter().println(portfolio2.getHtmlString());
-		
-		portfolio2.changeBid(55.5f, 2);
-		resp.getWriter().println(portfolio.getHtmlString());
-		resp.getWriter().println(portfolio2.getHtmlString());
+		Portfolio myPortfolio = portfolioManager.getPortfolio();
+		resp.getWriter().println(myPortfolio.getHtmlString());
 	}
 	
 }
