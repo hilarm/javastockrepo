@@ -10,9 +10,11 @@ import java.text.SimpleDateFormat;
 //import java.util.Calendar;
 import java.util.Date;
 
+import org.algo.model.StockInterface;
+
 import com.ram.model.Portfolio.ALGO_RECOMMENDATION;
 
-public class Stock {
+public class Stock implements StockInterface {
 	
 	private String symbol;
 	private float ask;
@@ -30,9 +32,18 @@ public class Stock {
 		this.stockQuantity=quantity;
 	}
 	//copy constructor
-	public Stock(Stock stck) {
-		this(stck.getSymbol(),stck.getAsk(),stck.getBid(),new Date( stck.getDate().getTime()),stck.getStockQuantity());
+	public Stock(StockInterface stck) {
+		this(stck.getSymbol(),stck.getAsk(),stck.getBid(),new Date( stck.getDate().getTime()),((Stock) stck).getStockQuantity());
 	}
+	public Stock (){
+		this.symbol=null;
+		this.ask=0;
+		this.bid=0;
+		this.date=null;
+		this.stockQuantity=0;
+	
+	}
+	
 	
 	//getters and setters
 	public String getSymbol() {
@@ -56,14 +67,21 @@ public class Stock {
 	public java.util.Date getDate() {
 		return date;
 	}
-	public void setDate(java.util.Date date) {
+	public void setDate(long num) {
+		Date date = new Date (num*1000);
 		this.date = date;
 	}
 	public int getStockQuantity() {
-		return stockQuantity;
+		return 	stockQuantity;
 	}
 	public void setStockQuantity(int stockQuantity) {
 		this.stockQuantity = stockQuantity;
+	}
+	public ALGO_RECOMMENDATION getRecommendation() {
+		return recommendation;
+	}
+	public void setRecommendation(ALGO_RECOMMENDATION recommendation) {
+		this.recommendation = recommendation;
 	}
 	
 	/**print stock's description (symbol, ask, bid, date,quantity)

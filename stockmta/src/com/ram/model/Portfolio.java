@@ -5,22 +5,25 @@
  */
 package com.ram.model;
 
+import org.algo.model.PortfolioInterface;
+import org.algo.model.StockInterface;
 
-public class Portfolio {
+
+public class Portfolio implements PortfolioInterface {
 	public enum ALGO_RECOMMENDATION {
 		BUY,SELL, REMOVE,HOLD
 	}
-	private String title;
 	private static final int MAX_PORTFOLIO_SIZE=5;
+	private String title;
 	private int stockIndex; // logic size
-	Stock[] stocks;
-	Stock current;
+	private StockInterface[] stocks;
+	private Stock current;
 	private float balance;
 	
 	//empty constructor
 	public Portfolio (){
-		this.title="Portfolio";
-		stocks=new Stock[MAX_PORTFOLIO_SIZE];
+		this.title=null;
+		this.stocks= new Stock[MAX_PORTFOLIO_SIZE];
 		this.stockIndex=0;
 		this.balance=0;
 	}
@@ -34,14 +37,25 @@ public class Portfolio {
 	}
 	//copy constructor
 	public Portfolio(Portfolio port){
-		this.title=port.title;
-		for(int i=0 ; i<MAX_PORTFOLIO_SIZE;i++){
-			stocks[i] = new Stock (port.stocks[i]);
+		this(port.getTitle(), null, port.getStockIndex(), port.getBalance());
+		StockInterface[] coppied = port.getStocks();
+		for(int i=0;i<coppied.length;i++){
+			this.stocks[i]=new Stock(coppied[i]);
 		}
-		this.stockIndex=port.stockIndex;
-		this.balance=port.balance;
-		
 	}
+	//array c'tor
+	public Portfolio(Stock[] stockArray) {
+		this();
+		this.stocks=new Stock[MAX_PORTFOLIO_SIZE];
+		this.stockIndex=0;
+		this.title=null;
+		this.balance=0;
+		for(int i=0 ; i<stockArray.length;i++){
+			this.stocks[i]=stockArray[i];
+			this.stockIndex++;
+		}
+	}
+	
 	/**
 	 * Balance is the available money for investment.
 	 * @param amount 
@@ -52,7 +66,7 @@ public class Portfolio {
 		if(result < 0){
 			System.out.println("Balance can't be negative");
 		}else{
-			balance=result;
+			this.balance=result;
 		}
 		
 	}
@@ -60,22 +74,63 @@ public class Portfolio {
 	 * Add new stock to portfolio using stock array. 
 	 *@param stock, the stock to add to portfolio
 	 */
-	public void addStock(Stock stock){
-		int i=0;
-		if(stockIndex==MAX_PORTFOLIO_SIZE){
-			System.out.println("Can't add new stock, protfolio can have only"+MAX_PORTFOLIO_SIZE+"stocks");
+	
+	
+public void addStock(Stock stock){
+		boolean flag = false;
+		if(this.stockIndex == MAX_PORTFOLIO_SIZE){   // #1 - portfolio or the array is full
+			System.out.println("Can’t add new stock, portfolio can have only "+ MAX_PORTFOLIO_SIZE +" stocks");
+			return;
 		}
-		if(stocks[stockIndex]==null){
-			this.stocks[stockIndex]=stock;
-			stockIndex++;
-		}else{
-		for(i=0; i<stockIndex ; i++){
-			if(stocks[i].getSymbol().equals(stock.getSymbol())){
-				break;
+		
+		for(int i=0 ; i<this.stockIndex; i++){         // #2 - the stock exists in array already
+			if(stock.getSymbol().equals(stocks[i].getSymbol())){
+				flag = true;
+				System.out.println("the stock is already exist");
+				return;
 			}
 		}
+		if((flag == false) && (stock != null)){    // case #3 - NOT exists and NOT null - it's case o.k
+			this.stocks[stockIndex] = new Stock(stock);
+			this.stockIndex++;
+		}else{
+			System.out.println("the stock is null or the stock exists already in array");
+		}
 	}
-	}
+	/*	public void addStock(Stock stock){
+		int i=0;
+		boolean flag=false;
+		if(stockIndex==MAX_PORTFOLIO_SIZE){
+			System.out.println("Can't add new stock, protfolio can have only"+MAX_PORTFOLIO_SIZE+"stocks");
+		}else if(stockIndex==0){
+			this.stocks[stockIndex]=stock;
+			stockIndex++;
+		
+		}else{	
+		for(i=0; i<stockIndex;i++){
+			if(stocks[i].getSymbol().equals(stock.getSymbol())){
+				System.out.println("The stock already exist");
+				break;
+			}
+			else if((flag==false) && (stock!=null)){         // stock != null && flag == false
+				this.stocks[stockIndex]=new Stock(stock);
+				this.stockIndex++;
+				flag = true;
+				break;
+			}else{
+				System.out.println("the stock is null or the stock exists already in array");
+					
+				}
+	
+		}
+		}
+		}*/
+	
+	
+	
+		
+	
+
 	
 	/**
 	 *Remove stock from portfolio using symbol.
@@ -114,18 +169,18 @@ public class Portfolio {
 		for (int i=0;i<stockIndex;i++){
 			if(stocks[i].getSymbol().equals(symbol)){
 				if(quantity==-1){ //sell all units
-					sellValue=stocks[i].getBid()*stocks[i].getStockQuantity();
+					sellValue=stocks[i].getBid()*((Stock) stocks[i]).getStockQuantity();
 					updateBalance(sellValue);
-					stocks[i].setStockQuantity(0);
+					((Stock) stocks[i]).setStockQuantity(0);
 					return true;
 				}else if(quantity<0){ //check for typo, negative values
 					System.out.println("Error");
-				}else if(stocks[i].getStockQuantity()<quantity){ //error - sell more units than it has 
+				}else if(((Stock) stocks[i]).getStockQuantity()<quantity){ //error - sell more units than it has 
 					System.out.println("Not enough stocks to sell");
 				}else{//regular case
 					sellValue=stocks[i].getBid()*quantity;
 					updateBalance(sellValue);
-					stocks[i].setStockQuantity(stocks[i].getStockQuantity()-quantity);
+					((Stock) stocks[i]).setStockQuantity(((Stock) stocks[i]).getStockQuantity()-quantity);
 					return true;
 				}
 			}
@@ -157,13 +212,13 @@ public class Portfolio {
 						}
 					}else{
 						updateBalance(getBalance()-buyValue);
-						stocks[i].setStockQuantity(stocks[i].getStockQuantity()+quantity);
+						((Stock) stocks[i]).setStockQuantity(((Stock) stocks[i]).getStockQuantity()+quantity);
 						return true;
 					}					
 				}else{
 					buyValue=stock.getAsk()*quantity*(-1);
 					updateBalance(buyValue);
-					stocks[i].setStockQuantity(stocks[i].getStockQuantity()+quantity);
+					((Stock) stocks[i]).setStockQuantity(((Stock) stocks[i]).getStockQuantity()+quantity);
 					return true;
 				}
 			}else if(stocks[i+1]==null){
@@ -180,7 +235,7 @@ public class Portfolio {
 	public float getStockValue(){
 		float total=0;
 		for(int i=0;i<stockIndex;i++){
-			total=total+(stocks[i].getBid()*stocks[i].getStockQuantity());
+			total=total+(stocks[i].getBid()*((Stock) stocks[i]).getStockQuantity());
 		}return total;
 	}
 	
@@ -201,7 +256,7 @@ public class Portfolio {
 	 * @param bidIndex
 	 */
 	public void changeBid(float bid, int bidIndex){
-			stocks[bidIndex].setBid(bid);
+			((Stock) stocks[bidIndex]).setBid(bid);
 		}
 	
 	//getters and setters	
@@ -222,11 +277,11 @@ public class Portfolio {
 	}
 
 	public void setStocks(Stock[] stocks) {
-		this.stocks = stocks;
+		this.stocks = (StockInterface[]) stocks;
 	}
 
-	public Stock[] getStocks (){
-		return stocks;	
+	public StockInterface[] getStocks (){
+		return (StockInterface[]) stocks;	
 	}
 	public float getBalance() {
 		return balance;
@@ -239,10 +294,23 @@ public class Portfolio {
 	public String getHtmlString	(){
 		String result=new String ("<h1>"+getTitle()+"</h1>"+ "<b>Total portfolio value: </b>"+this.getTotalValue()+"$"+"<b> Total stock value: </b>"+this.getStockValue()+"$"+"<b> Balance: </b>"+this.getBalance()+"$"+"<br>");
 		for (int i=0 ; i<this.stockIndex;i++){
-			current=this.stocks[i];
+			current=(Stock) this.stocks[i];
 			result+="<br>"+current.getHtmlDescription();		
 		}
 		return result;
+	}
+
+	public static int getMaxSize() {
+		return MAX_PORTFOLIO_SIZE;
+	}
+
+	public StockInterface findStock(String symbol) {
+		for(int i=0 ; i<this.stockIndex ; i++){
+			if(this.stocks[i].getSymbol().equals(symbol)){
+				return stocks[i];
+			}
+		}
+		return null;
 	}
 	
 
