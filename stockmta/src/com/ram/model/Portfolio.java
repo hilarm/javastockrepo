@@ -13,7 +13,7 @@ public class Portfolio implements PortfolioInterface {
 	public enum ALGO_RECOMMENDATION {
 		BUY,SELL, REMOVE,HOLD
 	}
-	private static final int MAX_PORTFOLIO_SIZE=5;
+	public static final int MAX_PORTFOLIO_SIZE=5;
 	private String title;
 	private int stockIndex; // logic size
 	private StockInterface[] stocks;
@@ -43,7 +43,7 @@ public class Portfolio implements PortfolioInterface {
 			this.stocks[i]=new Stock(coppied[i]);
 		}
 	}
-	//array c'tor
+	//array constructor
 	public Portfolio(Stock[] stockArray) {
 		this();
 		this.stocks=new Stock[MAX_PORTFOLIO_SIZE];
@@ -74,64 +74,30 @@ public class Portfolio implements PortfolioInterface {
 	 * Add new stock to portfolio using stock array. 
 	 *@param stock, the stock to add to portfolio
 	 */
-	
-	
-public void addStock(Stock stock){
-		boolean flag = false;
-		if(this.stockIndex == MAX_PORTFOLIO_SIZE){   // #1 - portfolio or the array is full
+
+	public void addStock(Stock stock){
+		boolean flag = false; //check if stock exist
+		
+		if(this.stockIndex == MAX_PORTFOLIO_SIZE){  
 			System.out.println("Can’t add new stock, portfolio can have only "+ MAX_PORTFOLIO_SIZE +" stocks");
 			return;
 		}
 		
-		for(int i=0 ; i<this.stockIndex; i++){         // #2 - the stock exists in array already
+		for(int i=0 ; i<this.stockIndex; i++){ 
 			if(stock.getSymbol().equals(stocks[i].getSymbol())){
 				flag = true;
 				System.out.println("the stock is already exist");
 				return;
 			}
 		}
-		if((flag == false) && (stock != null)){    // case #3 - NOT exists and NOT null - it's case o.k
+		if((flag == false) && (stock != null)){    
 			this.stocks[stockIndex] = new Stock(stock);
 			this.stockIndex++;
 		}else{
 			System.out.println("the stock is null or the stock exists already in array");
 		}
 	}
-	/*	public void addStock(Stock stock){
-		int i=0;
-		boolean flag=false;
-		if(stockIndex==MAX_PORTFOLIO_SIZE){
-			System.out.println("Can't add new stock, protfolio can have only"+MAX_PORTFOLIO_SIZE+"stocks");
-		}else if(stockIndex==0){
-			this.stocks[stockIndex]=stock;
-			stockIndex++;
-		
-		}else{	
-		for(i=0; i<stockIndex;i++){
-			if(stocks[i].getSymbol().equals(stock.getSymbol())){
-				System.out.println("The stock already exist");
-				break;
-			}
-			else if((flag==false) && (stock!=null)){         // stock != null && flag == false
-				this.stocks[stockIndex]=new Stock(stock);
-				this.stockIndex++;
-				flag = true;
-				break;
-			}else{
-				System.out.println("the stock is null or the stock exists already in array");
-					
-				}
-	
-		}
-		}
-		}*/
-	
-	
-	
-		
-	
 
-	
 	/**
 	 *Remove stock from portfolio using symbol.
 	 *@param symbol
@@ -152,12 +118,12 @@ public void addStock(Stock stock){
 						stocks[stockIndex-1]=null;
 						stockIndex--;
 						return true;
-						
 					}
 				}
-		}
+			}
 		}return false;
 	}
+	
 	/**
 	 * sell stock, not removing it from array
 	 * @param symbol.
@@ -186,6 +152,7 @@ public void addStock(Stock stock){
 			}
 		}return false;
 	}
+	
 	/**
 	 * buy stock
 	 * @param stock
@@ -257,7 +224,7 @@ public void addStock(Stock stock){
 	 */
 	public void changeBid(float bid, int bidIndex){
 			((Stock) stocks[bidIndex]).setBid(bid);
-		}
+	}
 	
 	//getters and setters	
 	public String getTitle() {

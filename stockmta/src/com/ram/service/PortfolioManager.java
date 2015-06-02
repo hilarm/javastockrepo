@@ -228,9 +228,12 @@ public class PortfolioManager implements PortfolioManagerInterface  {
 			StockDto[] array = null;
 			StockInterface[] stocks = portfolio.getStocks();
 			if(stocks != null) {
-				array = new StockDto[stocks.length];
+				array = new StockDto[portfolio.getStockIndex()];
 				for (int i = 0; i < stocks.length; i++) {
-					array[i] = toDto(stocks[i]);
+					StockInterface s = stocks[i];
+					if(s!=null){
+						array[i]=toDto(s);
+					}
 				}
 			}
 			return new PortfolioDto(portfolio.getTitle(), portfolio.getBalance(), array);
